@@ -17,7 +17,6 @@ const computerLizard = document.getElementById('computerLizard');
 const computerSpock = document.getElementById('computerSpock');
 
 const allGameIcons = document.querySelectorAll('.far');
-let computerChoice = '';
 
 // Reset all 'selected' icons
 function resetIcons() {
@@ -31,6 +30,10 @@ const choices = {
   lizard: { name: 'Lizard', defeats: ['paper', 'spock'] },
   spock: { name: 'Spock', defeats: ['scissors', 'rock'] },
 };
+
+let playerScoreNumber = 0;
+let computerScoreNumber = 0;
+let computerChoice = '';
 
 // Random computer choice
 function computerRandomChoice(){
@@ -77,16 +80,35 @@ function displayComputerChoice() {
   }
 }
 
+// Check result, increase scores, update resultText
+function updateScore(playerChoice) {
+  if (playerChoice === computerChoice) {
+    resultText.textContent = "It's a tie.";
+  }else{
+    const choice = choices[playerChoice];
+    if (choice.defeats.indexOf(computerChoice) != -1) {
+      resultText.textContent = "You Won!";
+      playerScoreNumber++;
+      playerScoreEl.textContent = playerScoreNumber;
+    }else{
+      resultText.textContent = "You Lose!";
+      computerScoreNumber++;
+      computerScoreEl.textContent = computerScoreNumber;
+    }
+  }
+}
+
 // Call functions to process turn
-function checkResult() {
+function checkResult(playerChoice) {
   computerRandomChoice();
   displayComputerChoice();
   resetIcons();
+  updateScore(playerChoice);
 }
 
 // Passing player selection value and styling icons
 function select(playerChoice) {
-  checkResult();
+  checkResult(playerChoice);
   // Add 'selected' styleing & playerChoice
   switch (playerChoice) {
     case 'rock':
