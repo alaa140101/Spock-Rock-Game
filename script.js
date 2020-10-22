@@ -16,12 +16,25 @@ const computerScissors = document.getElementById('computerScissors');
 const computerLizard = document.getElementById('computerLizard');
 const computerSpock = document.getElementById('computerSpock');
 
+
 const allGameIcons = document.querySelectorAll('.far');
 
 // Reset all 'selected' icons
 function resetIcons() {
   allGameIcons.forEach(icon => icon.classList.remove('selected'));
 }
+
+// Reset Score & playerChoice/computerChoice
+function resetAll() {
+  resetIcons();
+  playerScoreNumber = 0;
+  computerScoreNumber = 0;
+  computerChoiceEl.textContent = '';
+  playerChoiceEl.textContent = '';
+  playerScoreEl.textContent = 0;
+  computerScoreEl.textContent = 0;
+  resultText.textContent = "";
+} 
 
 const choices = {
   rock: { name: 'Rock', defeats: ['scissors', 'lizard'] },
@@ -100,9 +113,9 @@ function updateScore(playerChoice) {
 
 // Call functions to process turn
 function checkResult(playerChoice) {
+  resetIcons();
   computerRandomChoice();
   displayComputerChoice();
-  resetIcons();
   updateScore(playerChoice);
 }
 
@@ -136,3 +149,6 @@ function select(playerChoice) {
       break;
   }
 }
+
+// On startup, set initak values
+resetAll();
